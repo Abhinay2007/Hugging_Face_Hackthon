@@ -525,13 +525,24 @@ def build_app() -> gr.Blocks:
 
 
 if __name__ == "__main__":
-    preferred_port = int(os.getenv("GRADIO_SERVER_PORT") or os.getenv("PORT", "7860"))
+    preferred_port = int(
+        os.getenv("GRADIO_SERVER_PORT")
+        or os.getenv("PORT", "7860")
+    )
+
     app = build_app()
+
     for port in range(preferred_port, preferred_port + 10):
         try:
-            app.launch(server_name="0.0.0.0", server_port=port)
+            app.launch(
+                server_name="0.0.0.0",
+                server_port=port,
+                ssr_mode=False
+            )
             break
+
         except OSError as exc:
             if "Cannot find empty port" not in str(exc) or port == preferred_port + 9:
                 raise
+
             print(f"Port {port} is busy. Trying {port + 1}...")
