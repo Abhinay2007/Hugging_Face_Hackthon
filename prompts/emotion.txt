@@ -1,0 +1,104 @@
+You are analyzing a conflict story for perspective-taking only.
+
+This is not therapy. Do not give mental health advice. Do not diagnose. Do not take sides. Do not judge either person. Do not suggest what anyone should do.
+
+Task:
+Identify the people or roles in the story.
+Identify each person's emotions, fears, goals, and assumptions.
+Compress the core conflict into a short emotional archetype.
+Generate the misunderstanding layer: what each person means and what the other person hears.
+Generate hidden needs beneath surface positions.
+Generate three future echoes for defensive, curious, and empathic response styles.
+Generate one vivid "If you were them" narration.
+Write a neutral observer view that explains both perspectives without advice.
+
+Allowed emotions only:
+{allowed_emotions}
+
+Rules:
+- Return JSON only.
+- Start with {{ and end with }}.
+- No markdown.
+- No commentary outside JSON.
+- Use only the allowed emotions listed above.
+- Never invent new emotion words.
+- Include 2 people unless the story clearly has more.
+- Keep every list item under 7 words.
+- Use at most 2 emotions per person.
+- Use at most 2 fears, 2 goals, and 2 assumptions per person.
+- core_conflict must be 2 to 5 words in an archetype format, usually "Need vs Need".
+- Good core_conflict examples: "Security vs Freedom", "Control vs Trust", "Recognition vs Respect", "Belonging vs Authenticity", "Stability vs Independence".
+- Do not output long descriptions for core_conflict.
+- misunderstanding.intention should describe what the speaker may mean underneath their words.
+- misunderstanding.interpretation should describe what the other person may hear or fear it means.
+- hidden_needs.deep_need should be one short human need such as Security, Freedom, Trust, Respect, Belonging, Autonomy, Recognition, Stability, Acceptance, or Understanding.
+- future_echoes must include exactly three choices: "Choice A", "Choice B", and "Choice C".
+- Choice A response_style must be "Respond defensively".
+- Choice B response_style must be "Respond with curiosity".
+- Choice C response_style must be "Respond with empathy".
+- Each future timeline value must be one short sentence under 16 words.
+- if_you_were_them must be maximum 90 words. Narrate waking up tomorrow as the other person. Include what they fear, hope for, misunderstand, and wish the user knew.
+- Avoid therapy language, diagnosis, moral judgment, and advice.
+
+Required JSON shape:
+{{
+  "situation": "short label for the situation",
+  "core_conflict": "short phrase",
+  "people": [
+    {{
+      "role": "person or role",
+      "emotions": ["fear"],
+      "fears": ["specific fear"],
+      "goals": ["specific goal"],
+      "assumptions": ["specific assumption"]
+    }}
+  ],
+  "observer_view": "neutral explanation of what each side may be experiencing",
+  "misunderstandings": [
+    {{
+      "speaker": "person or role",
+      "intention": "what they may mean underneath the words",
+      "interpretation": "what the other person may hear"
+    }}
+  ],
+  "hidden_needs": [
+    {{
+      "person": "person or role",
+      "surface_position": "what they appear to be asking for",
+      "deep_need": "one short need"
+    }}
+  ],
+  "future_echoes": [
+    {{
+      "choice": "Choice A",
+      "response_style": "Respond defensively",
+      "timeline": {{
+        "one_week_later": "possible emotional consequence",
+        "one_month_later": "possible emotional consequence",
+        "one_year_later": "possible emotional consequence"
+      }}
+    }},
+    {{
+      "choice": "Choice B",
+      "response_style": "Respond with curiosity",
+      "timeline": {{
+        "one_week_later": "possible emotional consequence",
+        "one_month_later": "possible emotional consequence",
+        "one_year_later": "possible emotional consequence"
+      }}
+    }},
+    {{
+      "choice": "Choice C",
+      "response_style": "Respond with empathy",
+      "timeline": {{
+        "one_week_later": "possible emotional consequence",
+        "one_month_later": "possible emotional consequence",
+        "one_year_later": "possible emotional consequence"
+      }}
+    }}
+  ],
+  "if_you_were_them": "second-person narration, maximum 150 words"
+}}
+
+Story:
+{story}

@@ -1,0 +1,28 @@
+You are generating perspective summaries for a conflict story.
+
+This is not therapy. Do not give mental health advice. Do not diagnose. Do not take sides. Do not judge either person. Do not suggest what anyone should do.
+
+Task:
+Write three concise perspective summaries:
+1. user_view: how the storyteller may see and feel the conflict
+2. other_view: how the other person may see and feel the conflict
+3. observer_view: a neutral view that describes the story in between
+
+Rules:
+- Return JSON only.
+- No advice.
+- No judgment.
+- No diagnosis.
+- No therapy framing.
+- Use careful language such as "may", "might", and "could".
+- Do not claim certainty about anyone's inner life.
+
+Required JSON shape:
+{{
+  "user_view": "first perspective summary",
+  "other_view": "second perspective summary",
+  "observer_view": "neutral observer summary"
+}}
+
+Story:
+{story}
