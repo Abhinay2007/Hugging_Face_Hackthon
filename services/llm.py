@@ -16,6 +16,22 @@ from pydantic import BaseModel, ValidationError
 os.environ.setdefault("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True")
 
 try:
+    import spaces
+except Exception:  # pragma: no cover - local/dev fallback when spaces is unavailable
+    class _SpacesCompat:
+        @staticmethod
+        def GPU(*args: Any, **kwargs: Any) -> Any:
+            if args and callable(args[0]) and not kwargs:
+                return args[0]
+
+            def decorator(func: Any) -> Any:
+                return func
+
+            return decorator
+
+    spaces = _SpacesCompat()
+
+try:
     import torch
     from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 except Exception:  # pragma: no cover - optional until local model mode is used
@@ -122,6 +138,10 @@ class LLMClient:
         if AutoTokenizer is None or AutoModelForCausalLM is None:
             raise LLMError("Transformers local runtime is unavailable. Install requirements or use HF_TOKEN.")
 
+        return _run_local_generation(self, prompt, max_new_tokens)
+
+    def _generate_local_on_current_device(self, prompt: str, max_new_tokens: int) -> str:
+        """Run tokenization and model.generate on the active device."""
         tokenizer, model = self._get_local_model()
         messages = [
             {
@@ -228,6 +248,19 @@ class LLMClient:
             "<|im_end|>\n"
             "<|im_start|>assistant\n"
         )
+
+
+@spaces.GPU(duration=120)
+def _run_local_generation(client: LLMClient, prompt: str, max_new_tokens: int) -> str:
+    """ZeroGPU-decorated local Transformers inference entrypoint."""
+    print("ZeroGPU inference started")
+    if torch is not None:
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+        print(f"ZeroGPU device available: {device}")
+    try:
+        return client._generate_local_on_current_device(prompt, max_new_tokens)
+    finally:
+        print("ZeroGPU inference finished")
 
 
 def extract_json_object(text: str) -> dict[str, Any]:

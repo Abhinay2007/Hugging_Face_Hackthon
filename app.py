@@ -289,11 +289,6 @@ def _emotional_universe_html(analysis: EmpathyAnalysis) -> str:
       <div class="universe-shell" data-tte-graph="{graph_json}">
         <div class="react-flow-mount"></div>
         <div class="graph-fallback" aria-hidden="true"></div>
-        <aside class="universe-panel" aria-live="polite">
-          <span class="node-label">Selected Node</span>
-          <strong>Touch a constellation node</strong>
-          <p>Emotions, fears, goals, and assumptions will open here.</p>
-        </aside>
       </div>
     </section>
     """
