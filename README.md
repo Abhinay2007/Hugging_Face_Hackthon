@@ -11,69 +11,81 @@ pinned: false
 
 # 🫂 Through Their Eyes
 
-### Explore the story between perspectives.
+**An AI-powered empathy simulator for seeing the story inside a conflict.**
 
 Every conflict has three stories:
 
-* Your story
-* Their story
-* The story in between
+- Your story
+- Their story
+- The story in between
 
-An AI-powered empathy simulator that transforms conflicts into interactive emotional worlds.
+Through Their Eyes turns a short conflict description into an immersive emotional world. It does not give therapy, diagnose anyone, judge either side, or tell users what to do. Its purpose is simpler and more human: help someone pause long enough to wonder, *"What might this feel like from the other side?"*
 
-## 🔗 Quick Links
+---
 
-* 🌐 **Live Space:** [SPACE_LINK](https://huggingface.co/spaces/build-small-hackathon/through-their-eyes-empathy-simulator)
-* 🎥 **Demo Video:** [VIDEO_LINK](https://x.com/ThoratAbhi35944/status/2066523239820718583)
-* 💻 **GitHub Repository:** [GITHUB_LINK](https://github.com/Abhinay2007/Hugging_Face_Hackthon)
-* 📢 **Social Post:** [SOCIAL_POST_LINK](https://www.linkedin.com/posts/abhinay-thorat-a406642ba_ai-artificialintelligence-machinelearning-ugcPost-7472261279416602625-paWL/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEygrtABCe66gBLepsOUmafD_3WAPP5f0rk)
+## 🔗 Links
+
+- **Live Space:** https://huggingface.co/spaces/build-small-hackathon/through-their-eyes-empathy-simulator
+- **Demo Video:** https://x.com/ThoratAbhi35944/status/2066523239820718583
+- **GitHub Repository:** https://github.com/Abhinay2007/Hugging_Face_Hackthon
+- **Social Post:** https://www.linkedin.com/posts/abhinay-thorat-a406642ba_ai-artificialintelligence-machinelearning-ugcPost-7472261279416602625-paWL/
 
 ---
 
 ## ✨ What It Does
 
-Through Their Eyes helps users explore conflicts through multiple perspectives instead of receiving advice.
+Users enter a real-world conflict, such as:
 
-The experience reveals:
+> My father wants me to become an engineer, but I want to start a business.
 
-* 🌌 Emotional Universe
-* 🧠 Multiple Perspectives
-* 💭 Hidden Needs
-* 🤝 Misunderstanding Layer
-* 🔮 Future Echoes
+The app generates an empathy experience with:
 
----
-
-## 🎯 Why I Built It
-
-Most AI systems answer questions.
-
-Through Their Eyes helps people understand each other.
-
-The goal is not to solve the conflict, but to reveal the emotional landscape beneath it.
+- **Core Conflict Compression:** turns long conflict descriptions into emotional archetypes like `Security vs Freedom`.
+- **Perspective Explorer:** shows the user's view, the other person's view, and a neutral observer view.
+- **Misunderstanding Layer:** reveals what each person may mean versus what the other person may hear.
+- **Hidden Needs:** maps surface positions to deeper needs such as security, freedom, trust, or respect.
+- **Future Echoes:** explores how defensive, curious, or empathic responses may unfold over time.
+- **Emotional Universe:** visualizes emotions, fears, goals, and assumptions as a constellation.
+- **If You Were Them:** a short narrative that helps the user temporarily inhabit the other person's emotional world.
 
 ---
 
-## 🚀 Features
+## 🎯 Why It Matters
 
-* Interactive Emotional Universe
-* Perspective Explorer
-* Misunderstanding Layer
-* Hidden Needs Analysis
-* Future Echoes Simulation
-* Custom Cinematic UI
-* Local Small-Model Inference
+Most AI tools try to answer the user.
+
+Through Their Eyes tries to widen the user's view.
+
+Conflict often gets stuck because people argue about positions: career choices, chores, tone, deadlines, money, plans. Underneath those positions are usually needs: safety, independence, respect, belonging, recognition, trust.
+
+This project helps users see that hidden layer without taking sides.
 
 ---
 
-## 🧠 Tech Stack
+## 🧠 Design Philosophy
 
-* Gradio
-* Python
-* Qwen 3 8B
-* Transformers
-* Hugging Face Spaces
-* React Flow
+The interface is intentionally not a dashboard. It is designed to feel like entering another person's emotional world:
+
+- Floating perspective planets
+- Glowing emotion bubbles
+- A constellation-style emotional map
+- Cinematic dark UI
+- Minimal text, high emotional focus
+
+The goal is a judge moment:
+
+> Oh wow. I never thought they might see it that way.
+
+---
+
+## 🛠 Tech Stack
+
+- **Frontend:** Gradio Blocks, custom CSS, custom JavaScript
+- **Backend:** Python, Pydantic, NetworkX
+- **Model Runtime:** Transformers
+- **Model:** Qwen3 local inference
+- **Visualization:** React Flow-style emotional universe with fallback rendering
+- **Deployment:** Hugging Face Spaces
 
 ---
 
@@ -83,54 +95,89 @@ The goal is not to solve the conflict, but to reveal the emotional landscape ben
 
 **Bonus Badges Targeted:**
 
-* 🎨 Off Brand
-* 🔌 Off The Grid
+- Off Brand
+- Off The Grid
+
+**Tags:** `thousand-token-wood`, `off-brand`, `modal`, `codex`
 
 ---
 
-## tags:
-  - thousand-token-wood
-  - off-brand
-  - modal
-  - codex
+## 🚀 Running Locally
 
-## 🛠 Development Journey
+```bash
+python app.py
+```
 
-Through Their Eyes was built and refined using a combination of local and cloud resources.
+For local model inference:
 
-### OpenAI Codex
+```bash
+export LLM_PROVIDER=local
+export MODEL_ID=Qwen/Qwen3-8B
+export LOAD_IN_4BIT=true
+```
 
-OpenAI Codex was used during development to accelerate implementation, experiment with ideas, improve UI components, and speed up iteration.
+For lower-memory machines, use:
 
-### Modal Cloud Infrastructure
+```bash
+export MODEL_ID=Qwen/Qwen3-4B
+```
 
-Modal was used to test and evaluate multiple language models in the cloud before selecting the final approach.
+---
 
-This allowed rapid experimentation without being limited by local hardware.
+## ⚡ ZeroGPU Notes
 
-### Local AI Development
+The app is prepared for Hugging Face ZeroGPU:
 
-Final local testing and experimentation were performed on an NVIDIA RTX 5060 Ti 16GB GPU.
+- `spaces` is included in `requirements.txt`
+- Local Transformers generation is wrapped with `@spaces.GPU(duration=120)`
+- GPU inference happens inside the decorated generation function
+- The model client caches the tokenizer and model to avoid repeated initialization
+- CPU fallback remains available when CUDA is not present
 
-Running models locally helped ensure that the experience remained aligned with the project's goal of using accessible small models rather than relying on large cloud-hosted systems.
+Recommended Space settings:
 
+```text
+SDK: Gradio
+Hardware: ZeroGPU
+```
+
+Recommended environment variables:
+
+```bash
+LLM_PROVIDER=local
+MODEL_ID=Qwen/Qwen3-8B
+LOAD_IN_4BIT=true
+PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
+```
+
+---
+
+## 🧪 Development Journey
+
+This project was built and refined through fast local and cloud iteration.
+
+- **OpenAI Codex:** accelerated implementation, UI iteration, schema design, and debugging.
+- **Modal:** used to experiment with model behavior and infrastructure options.
+- **Local AI Development:** final testing was performed on an NVIDIA RTX 5060 Ti 16GB GPU to keep the project grounded in accessible small-model inference.
+
+---
 
 ## 📷 Screenshots
 
-![Landing Page](screenshots/image.png)
-![Landing Page](screenshots/image_copy.png)
-![Landing Page](screenshots/image_copy2.png)
-![Landing Page](screenshots/image_copy3.png)
-![Landing Page](screenshots/image_copy4.png)
-![Landing Page](screenshots/image_copy5.png)
-![Landing Page](screenshots/image_copy6.png)
-![Landing Page](screenshots/image_copy7.png)
-![Landing Page](screenshots/image_copy8.png)
+![Through Their Eyes landing screen](screenshots/image.png)
+![Memory capsule input](screenshots/image_copy.png)
+![Core conflict view](screenshots/image_copy2.png)
+![Perspective planets](screenshots/image_copy3.png)
+![Misunderstanding layer](screenshots/image_copy4.png)
+![Hidden needs section](screenshots/image_copy5.png)
+![Future echoes timeline](screenshots/image_copy6.png)
+![Emotional universe graph](screenshots/image_copy7.png)
+![Developer mode output](screenshots/image_copy8.png)
 
 ---
 
 ## ❤️ Final Thought
 
-Every disagreement contains emotions, fears, hopes, and assumptions that are rarely visible.
+Through Their Eyes is not about winning an argument.
 
-Through Their Eyes helps users step inside another person's world and discover the story in between.
+It is about discovering the emotional world the argument is hiding.
